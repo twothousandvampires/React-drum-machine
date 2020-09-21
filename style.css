@@ -1,0 +1,64 @@
+#drum-machine{
+  display:flex;
+  flex-direction:column;
+  background-color:blue;
+  border: 3px solid blue;
+  border-radius: 6px;
+  width:500px;
+  height:700px;
+  margin: 0 auto
+}
+.drum-pad{
+  width:30%;
+  height:30%;
+  margin:5px;
+  font-family: 'Poppins', sans-serif;
+  font-size:20px;
+  font-weight:bold;
+}
+#pad-wrap{
+  padding-top: 50px;
+  height:50%;
+  display:flex;
+  flex-direction:row;
+  flex-wrap:wrap;
+  justify-content:center;
+  align-items:center;
+}
+.drum-pad:active {
+  background-color: yellow;
+}
+
+
+#toggleSample{
+  width:120px;
+  height: 40px;
+  background-color:red;
+  align-items:center;
+  display:flex;
+  flex-direction:row;
+  transition:1s all ease-in;
+  padding: 5px;
+}
+
+#select-block{
+  background-color:blue;
+  width:30px;
+  height:30px;
+
+}
+p{
+  font-family: 'Baloo Tamma 2', cursive;
+  width:150px;
+  height:40px;
+  background-color:white;
+  text-align: center;
+  padding-top: 10px;
+}
+
+#display{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+}

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>drum-machine</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Alata&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Tamma+2&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      let musicButtons=[
+    {
+       url: "https://s3.amazonaws.com/freecodecamp/drums/Heater-1.mp3",
+       name:"Heater-1.mp3",
+       id:"Q"
+    },
+  {
+       url: "https://s3.amazonaws.com/freecodecamp/drums/Heater-2.mp3",
+       name:"Heater-2.mp3",
+       id:"W",
+    },
+  {
+       url: "https://s3.amazonaws.com/freecodecamp/drums/Heater-3.mp3",
+       name:"Heater-3.mp3",
+       id:"E",
+    },
+   {
+       url: "https://s3.amazonaws.com/freecodecamp/drums/Heater-4_1.mp3" ,
+       name:"Heater-4.mp3",
+       id:"A",
+    },
+   {
+       url: "https://s3.amazonaws.com/freecodecamp/drums/Heater-6.mp3",
+       name:"Heater-6-1.mp3",
+       id:"S",
+    },
+   {
+       url: "https://s3.amazonaws.com/freecodecamp/drums/Dsc_Oh.mp3",
+       name:"Dsc-Oh",
+       id:"D",
+    },
+   {
+       url: "https://s3.amazonaws.com/freecodecamp/drums/Kick_n_Hat.mp3",
+       name:"Kick-n-Hat",
+       id:"Z",
+    },
+   {
+       url: "https://s3.amazonaws.com/freecodecamp/drums/RP4_KICK_1.mp3",
+       name:"Rp4-kick",
+       id:"X",
+    },
+   {
+       url: "https://s3.amazonaws.com/freecodecamp/drums/Cev_H2.mp3 ",
+       name:"Cev-h2",
+       id:"C",
+    },
+  
+]
+      let musicButtons2 =[ {
+       url: "https://s3.amazonaws.com/freecodecamp/drums/Chord_1.mp3",
+       name:"Chord_1.mp3",
+       id:"Q"
+    },
+  {
+       url: "https://s3.amazonaws.com/freecodecamp/drums/Chord_2.mp3",
+       name:"Chord_2.mp3",
+       id:"W",
+    },
+  {
+       url: "https://s3.amazonaws.com/freecodecamp/drums/Chord_3.mp3",
+       name:"Chord_3.mp3",
+       id:"E",
+    },
+   {
+       url: "https://s3.amazonaws.com/freecodecamp/drums/Give_us_a_light.mp3" ,
+       name:"Give_us_a_light.mp3",
+       id:"A",
+    },
+   {
+       url: "https://s3.amazonaws.com/freecodecamp/drums/Dry_Ohh.mp3",
+       name:"Dry_Ohh.mp3",
+       id:"S",
+    },
+   {
+       url: "https://s3.amazonaws.com/freecodecamp/drums/Bld_H1.mp3",
+       name:"Bld_H1.mp3",
+       id:"D",
+    },
+   {
+       url: "https://s3.amazonaws.com/freecodecamp/drums/punchy_kick_1.mp3",
+       name:"punchy_kick_1.mp3",
+       id:"Z",
+    },
+   {
+       url: "https://s3.amazonaws.com/freecodecamp/drums/side_stick_1.mp3",
+       name:"side_stick_1.mp3",
+       id:"X",
+    },
+   {
+       url: "https://s3.amazonaws.com/freecodecamp/drums/Brk_Snr.mp3 ",
+       name:"Brk_Snr.mp3",
+       id:"C",
+    },]
+
+    class App extends React.Component {
+      constructor(props){
+      super(props)
+      this.state = {
+        music: musicButtons,
+        current_clip:" ",
+        toggleSample:true,
+        
+      }
+        this.onClick = this.onClick.bind(this)
+        this.keyListener = this.keyListener.bind(this)
+        this.toggleSample = this.toggleSample.bind(this)
+      addEventListener("keydown",this.keyListener)
+      }
+        onClick(e){
+        if(this.audio){
+          this.audio.pause()
+          this.audio.currentTime = 0;
+        }
+        this.audio = document.getElementById(e.target.name);
+        this.audio.play();
+        this.setState({
+          current_clip:e.target.id
+        })
+          
+      }
+      toggleSample(){
+          if(this.state.toggleSample){
+            document.getElementById("toggleSample").style.flexDirection="row-reverse";
+            this.setState({
+              toggleSample:false,
+              music:musicButtons2
+            })
+          }
+          else{
+            document.getElementById("toggleSample").style.flexDirection="row";
+            this.setState({
+              toggleSample:true,
+              music:musicButtons
+            })
+          } 
+      }
+      keyListener(e){
+        this.state.music.map(item =>{
+          if(item.id == String.fromCharCode(e.keyCode)){
+            if(this.audio){
+          this.audio.pause()
+          this.audio.currentTime = 0;
+        }
+        this.audio = document.getElementById(item.id);
+        this.audio.play();
+          }
+        })
+      }
+      render(){       
+        return(          
+          <div id="drum-machine">
+              <div id="pad-wrap">
+              {this.state.music.map((item,index)=>(
+            <button className="drum-pad" id={item.name} onClick={this.onClick} name={item.id}>{item.id} <audio src={item.url} className="clip" id={item.id} ></audio></button>
+            ))}
+                </div>
+            <div id ="display">
+              <p>{this.state.current_clip}</p>
+              <div id="toggleSample" onClick ={this.toggleSample}><div id="select-block"></div></div>
+          </div>
+          </div>
+          
+        ) 
+      };
+    }
+
+    ReactDOM.render(
+      <App/>,
+      document.getElementById('root')
+    );
+    </script>
+  </body>
+</html>
